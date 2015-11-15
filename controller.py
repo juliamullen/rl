@@ -14,3 +14,7 @@ def move_hero(symbol, modifiers, hero):
 def check_quit(symbol, modifiers):
     if symbol == key.Q:
         return True
+
+def move_enemies(enemies):
+    for enemy in enemies.enemies:
+        enemy.move()

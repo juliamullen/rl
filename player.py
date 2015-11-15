@@ -1,16 +1,11 @@
-from sprites import get_image
-
+from character import Character
 import pyglet
 
-class Hero(object):
+class Hero(Character):
     def __init__(self, hero_type=None, name=None):
-        self.hero_type = hero_type
-        self.name = name
-        self.x = 10
-        self.y = 10
+        super(Hero, self).__init__(hero_type, name, x=10, y=10)
         self.experience = 0
         self.level = 1
-        self.image = get_image(self.hero_type)
 
     def move(self, direction=None):
         if direction:
