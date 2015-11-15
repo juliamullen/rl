@@ -1,5 +1,6 @@
-from player import Hero
-from game_map import Tile
+from player   import Hero
+from game_map import Atlas
+from view     import Animator
 
 import controller
 
@@ -7,21 +8,21 @@ import pyglet
 
 
 if __name__ == "__main__":
-    window = pyglet.window.Window(fullscreen=True)
-    tile = Tile()
-    hero = Hero(hero_type="ghost")
+    window     = pyglet.window.Window()
+    atlas      = Atlas()
+    hero       = Hero(hero_type="ghost")
+    animator   = Animator()
     event_loop = pyglet.app.EventLoop()
     @window.event
     def on_key_press(symbol, modifiers):
-        if controller.move_hero(symbol, modifiers, hero):
+        if controller.check_quit(symbol, modifiers):
             window.close()
-
-        tile.update_tile()
+        controller.move_hero(symbol, modifiers, hero)
 
     @window.event
     def on_draw():
         window.clear()
-        tile.draw()
-        hero.draw()
+        animator.draw_tiles(atlas)
+        animator.draw_hero(hero)
 
     pyglet.app.run()

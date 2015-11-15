@@ -1,5 +1,4 @@
-from settings import TILE_MAP as SPRITE_MAP
-from jobs    import image_for_type
+from sprites import get_image
 
 import pyglet
 
@@ -9,12 +8,11 @@ class Hero(object):
         self.name = name
         self.x = 10
         self.y = 10
-        self.image = SPRITE_MAP[image_for_type[self.hero_type]]
+        self.experience = 0
+        self.level = 1
+        self.image = get_image(self.hero_type)
 
-    def draw(self):
-        self.image.blit(32*self.x, 32*self.y)
-
-    def move(self, direction=None, update_look=False):
+    def move(self, direction=None):
         if direction:
             directions = {
                 'right': (1, 0),
@@ -26,4 +24,10 @@ class Hero(object):
             self.x = self.x + x_delt
             self.y = self.y + y_delt
 
+    def gain_experience(experience_gained):
+        self.experience += experience_gained
+        if self.experience % 10 > self.level:
+            self.gain_level(int(self.experience % 10))
 
+    def gain_level(advance_to_level):
+        self.level = advance_to_level
