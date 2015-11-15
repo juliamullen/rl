@@ -7,14 +7,18 @@ direction_dict = {
     key.UP:    'up',
 }
 
+class Quit(object):
+    pass
+
 action_dict = {
     key.A: True,
 }
 
 def move_hero(symbol, modifiers, hero):
-    try:
-        direction = direction_dict.get(symbol)
-        hero.move(direction=direction, update_look=action_dict.get(symbol))
-    except KeyError: # literally!
-        pass
 
+    direction = direction_dict.get(symbol)
+
+    hero.move(direction=direction, update_look=action_dict.get(symbol))
+
+    if symbol == key.Q:
+        return True

@@ -1,5 +1,5 @@
 from settings import TILE_MAP as SPRITE_MAP
-from races    import image_for_type
+from jobs    import image_for_type
 
 import pyglet
 
