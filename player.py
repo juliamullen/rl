@@ -1,20 +1,15 @@
 from character import Character
+from controller import directions
 import pyglet
 
 class Hero(Character):
     def __init__(self, hero_type=None, name=None):
-        super(Hero, self).__init__(hero_type, name, x=10, y=10)
+        super(Hero, self).__init__(hero_type, name, x=3, y=3)
         self.experience = 0
         self.level = 1
 
     def move(self, direction=None):
         if direction:
-            directions = {
-                'right': (1, 0),
-                'left':  (-1, 0),
-                'up':    (0, 1),
-                'down':  (0, -1),
-            }
             x_delt, y_delt = directions[direction]
             self.x = self.x + x_delt
             self.y = self.y + y_delt

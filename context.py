@@ -10,17 +10,17 @@ import pyglet
 
 if __name__ == "__main__":
     window     = pyglet.window.Window()
-    atlas      = Atlas()
+    atlas      = Atlas(10, 10)
     hero       = Hero(hero_type="ghost")
     animator   = Animator()
     event_loop = pyglet.app.EventLoop()
-    enemies    = Enemies()
+    enemies    = Enemies(10, 10)
     @window.event
     def on_key_press(symbol, modifiers):
         if controller.check_quit(symbol, modifiers):
             window.close()
-        controller.move_hero(symbol, modifiers, hero)
-        controller.move_enemies(enemies)
+        controller.move_hero(symbol, modifiers, hero, atlas)
+        controller.move_enemies(enemies, atlas)
 
     @window.event
     def on_draw():
