@@ -15,10 +15,12 @@ directions = {
 }
 
 def move_hero(symbol, modifiers, hero, atlas):
+    atlas.atlas[hero.x][hero.y].contents.remove(hero)
     direction = direction_dict.get(symbol)
-    print atlas.valid_directions(hero.y, hero.y)
+    print hero
     if direction in atlas.valid_directions(hero.x, hero.y):
         hero.move(direction=direction)
+    atlas.atlas[hero.x][hero.y].contents.append(hero)
 
 def check_quit(symbol, modifiers):
     if symbol == key.Q:
@@ -26,5 +28,8 @@ def check_quit(symbol, modifiers):
 
 def move_enemies(enemies, atlas):
     for enemy in enemies.enemies:
+        atlas.atlas[enemy.x][enemy.y].contents.remove(enemy)
+        print enemy
         enemy.move(atlas.valid_directions(enemy.x, enemy.y))
+        atlas.atlas[enemy.x][enemy.y].contents.append(enemy)
 

@@ -14,8 +14,9 @@ class Mob(Character):
         valid_directions = list(valid_directions)
         random_direction = valid_directions[random.randint(0, len(valid_directions)-1)]
         dx, dy = directions[random_direction]
-        self.x += dx
-        self.y += dy
+        if random.randint(-1, 1):
+            self.x += dx
+            self.y += dy
 
 
 

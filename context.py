@@ -14,13 +14,16 @@ if __name__ == "__main__":
     hero       = Hero(hero_type="ghost")
     animator   = Animator()
     event_loop = pyglet.app.EventLoop()
-    enemies    = Enemies(10, 10)
+    enemies    = Enemies(7, 7)
+    atlas.atlas[hero.x][hero.y].contents.append(hero)
+    for enemy in enemies.enemies:
+        atlas.atlas[enemy.x][enemy.y].contents.append(enemy)
     @window.event
     def on_key_press(symbol, modifiers):
         if controller.check_quit(symbol, modifiers):
             window.close()
-        controller.move_hero(symbol, modifiers, hero, atlas)
         controller.move_enemies(enemies, atlas)
+        controller.move_hero(symbol, modifiers, hero, atlas)
 
     @window.event
     def on_draw():

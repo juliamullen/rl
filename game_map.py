@@ -25,24 +25,31 @@ class Atlas(object):
         Returns the possible valid movement directions from (x, y)
         """
         valid_list = []
+        print "x, y {0}, {1}".format(x, y)
         try:
-            if self.atlas[x+1][y].tile_type == 'regular':
+            right_tile = self.atlas[x+1][y]
+            if right_tile.tile_type == 'regular' and right_tile.contents == []:
                 valid_list.append('right')
         except IndexError:
             pass
         try:
-            if self.atlas[x-1][y].tile_type == 'regular':
-                valid_list.append('left')
+            if x > 0:
+                left_tile = self.atlas[x-1][y]
+                if left_tile.tile_type == 'regular' and left_tile.contents == []:
+                    valid_list.append('left')
         except IndexError:
             pass
         try:
-            if self.atlas[x][y+1].tile_type == 'regular':
+            up_tile = self.atlas[x][y+1]
+            if up_tile.tile_type == 'regular' and up_tile.contents == []:
                 valid_list.append('up')
         except IndexError:
             pass
         try:
-            if self.atlas[x][y-1].tile_type == 'regular':
-                valid_list.append('down')
+            if y > 0 and self.atlas[x][y-1].tile_type == 'regular':
+                down_tile = self.atlas[x][y-1]
+                if down_tile.tile_type == 'regular' and down_tile.contents == []:
+                    valid_list.append('down')
         except IndexError:
             pass
 
