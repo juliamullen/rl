@@ -16,7 +16,7 @@ if __name__ == "__main__":
     event_loop = pyglet.app.EventLoop()
     enemies    = Enemies(7, 7)
     atlas.atlas[hero.x][hero.y].contents.append(hero)
-    for enemy in enemies.enemies:
+    for enemy in enemies:
         atlas.atlas[enemy.x][enemy.y].contents.append(enemy)
     @window.event
     def on_key_press(symbol, modifiers):

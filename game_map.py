@@ -20,6 +20,9 @@ class Atlas(object):
         self.atlas = [[Tile(tile_type='regular') for row in range(self.rows)]
                 for col in range(self.cols)]
 
+    def __iter__(self):
+        return iter(self.atlas)
+
     def valid_directions(self, x, y):
         """
         Returns the possible valid movement directions from (x, y)

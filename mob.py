@@ -30,3 +30,6 @@ class Enemies(object):
                 y=random.randint(0, y)))
 
         self.enemies = enemies
+
+    def __iter__(self):
+        return iter(self.enemies)
