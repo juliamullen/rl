@@ -14,6 +14,12 @@ class Tile(object):
         self.image = get_image(self.tile_type)
 
 class Atlas(object):
+    directions = {
+        'right': (1, 0),
+        'left':  (-1, 0),
+        'up':    (0, 1),
+        'down':  (0, -1),
+    }
     def __init__(self, rows=None, cols=None):
         self.rows = rows if rows else 10
         self.cols = cols if cols else 10
@@ -21,39 +27,40 @@ class Atlas(object):
                 for col in range(self.cols)]
 
     def __iter__(self):
-        return iter(self.atlas)
+        return iter([tile for row in self.atlas for tile in row])
 
-    def valid_directions(self, x, y):
+    def is_location(self, x, y):
+        if x in range(0, self.rows + 1) and y in range(0, self.cols + 1):
+            try:
+                return self.atlas[x][y].tile_type == 'regular'
+            except IndexError:
+                pass
+        return False
+
+    def pos(self, x, y):
+        if self.is_location(x, y):
+            return self.atlas[x][y]
+
+    def place_on_tile(self, thing, x, y):
+        tile = self.pos(x, y)
+        if tile:
+            tile.contents.append(thing)
+
+    def remove_from_tile(self, thing, x, y):
+        tile = self.pos(x,y)
+        if tile:
+            tile.contents.remove(thing)
+
+    def valid_directions(self, x, y, if_hero=False):
         """
         Returns the possible valid movement directions from (x, y)
         """
         valid_list = []
-        print "x, y {0}, {1}".format(x, y)
-        try:
-            right_tile = self.atlas[x+1][y]
-            if right_tile.tile_type == 'regular' and right_tile.contents == []:
-                valid_list.append('right')
-        except IndexError:
-            pass
-        try:
-            if x > 0:
-                left_tile = self.atlas[x-1][y]
-                if left_tile.tile_type == 'regular' and left_tile.contents == []:
-                    valid_list.append('left')
-        except IndexError:
-            pass
-        try:
-            up_tile = self.atlas[x][y+1]
-            if up_tile.tile_type == 'regular' and up_tile.contents == []:
-                valid_list.append('up')
-        except IndexError:
-            pass
-        try:
-            if y > 0 and self.atlas[x][y-1].tile_type == 'regular':
-                down_tile = self.atlas[x][y-1]
-                if down_tile.tile_type == 'regular' and down_tile.contents == []:
-                    valid_list.append('down')
-        except IndexError:
-            pass
+
+        for direction, coordinates in self.directions.iteritems():
+            del_x, del_y = coordinates
+            tile = self.pos(x + del_x, y + del_y)
+            if tile and not tile.contents:
+                valid_list.append(direction)
 
         return valid_list

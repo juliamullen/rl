@@ -22,8 +22,9 @@ if __name__ == "__main__":
     def on_key_press(symbol, modifiers):
         if controller.check_quit(symbol, modifiers):
             window.close()
-        controller.move_enemies(enemies, atlas)
         controller.move_hero(symbol, modifiers, hero, atlas)
+        enemies.remove_dead_enemies(atlas)
+        controller.move_enemies(enemies, atlas)
 
     @window.event
     def on_draw():

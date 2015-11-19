@@ -1,5 +1,6 @@
 from character import Character
 from controller import directions
+import random
 import pyglet
 
 class Hero(Character):
@@ -21,3 +22,13 @@ class Hero(Character):
 
     def gain_level(advance_to_level):
         self.level = advance_to_level
+
+    def attack(self, enemy=None):
+        attack = 3 + random.randint(0, 4)
+        if attack == 7:
+            print ("!" * 20) + "CRITICAL HIT!" + ("!" * 20)
+
+        enemy.take_damage(attack)
+        print "Attacking {0} for {1} damage!".format(enemy.name, attack)
+        if enemy.status == "dead":
+            print "You killed {0}!".format(enemy.name)
