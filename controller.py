@@ -27,9 +27,11 @@ def move_hero(symbol, modifiers, hero, atlas):
 
     else:
         x_delt, y_delt = directions[direction]
-        enemy_list = atlas.pos(hero.x + x_delt, hero.y + y_delt).contents
-        for enemy in enemy_list:
-            hero.attack(enemy)
+        tile = atlas.pos(hero.x + x_delt, hero.y + y_delt)
+        if tile:
+            enemy_list = tile.contents
+            for enemy in enemy_list:
+                hero.attack(enemy)
 
     atlas.place_on_tile(hero, hero.x, hero.y)
 
