@@ -9,9 +9,7 @@ import pyglet
 
 
 if __name__ == "__main__":
-    window     = pyglet.window.Window(resizable=True)
-    print window.width
-    print window.height
+    window     = pyglet.window.Window(resizable=True, width=700, height=700)
     atlas      = Atlas(10, 10)
     hero       = Hero(hero_type="ghost")
     animator   = Animator(window)
@@ -34,5 +32,9 @@ if __name__ == "__main__":
         animator.draw_tiles(atlas)
         animator.draw_hero(hero)
         animator.draw_enemies(enemies)
+        animator.write_message()
+    @window.event
+    def on_resize(width, height):
+        animator.reset_view(window)
 
     pyglet.app.run()

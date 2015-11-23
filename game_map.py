@@ -41,6 +41,10 @@ class Atlas(object):
         if self.is_location(x, y):
             return self.atlas[x][y]
 
+    def pos_from_tuple(self, coords):
+        if self.is_location(*coords):
+            return self.atlas[coords[0]][coords[1]]
+
     def place_on_tile(self, thing, x, y):
         tile = self.pos(x, y)
         if tile:
@@ -51,7 +55,7 @@ class Atlas(object):
         if tile:
             tile.contents.remove(thing)
 
-    def valid_directions(self, x, y, if_hero=False):
+    def valid_directions(self, x, y):
         """
         Returns the possible valid movement directions from (x, y)
         """
@@ -64,3 +68,12 @@ class Atlas(object):
                 valid_list.append(direction)
 
         return valid_list
+
+    def a_star(self, start_x, start_y, end_x, end_y):
+        current = (start_x, start_y)
+        closed_set = set()
+        open_set = set(current)
+        path = []
+
+        while len(openlist):
+            pass
