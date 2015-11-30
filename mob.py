@@ -1,5 +1,4 @@
 from character import Character
-from controller import directions
 
 import random
 random.seed()
@@ -21,26 +20,11 @@ class Mob(Character):
         if self.health <= 0:
             self.status = "dead"
 
-    def move(self, valid_directions):
-        if not valid_directions:
-            return
-        valid_directions = list(valid_directions)
-        if len(valid_directions) == 1:
-            random_direction = valid_directions[0]
-        else:
-            random_direction = valid_directions[random.randint(0, len(valid_directions)-1)]
-        dx, dy = directions[random_direction]
-        if random.randint(-1, 1):
-            self.x += dx
-            self.y += dy
-
-
-
 class Enemies(object):
     def __init__(self, x, y):
         enemies = []
         for i in range(5):
-            enemies.append(Mob('dog-devil',
+            enemies.append(Mob('bunny',
                 ENEMY_NAMES[i][0],
                 x=random.randint(0, x),
                 y=random.randint(0, y),
@@ -53,6 +37,10 @@ class Enemies(object):
             if enemy.status == "dead":
                 atlas.remove_from_tile(enemy, enemy.x, enemy.y)
                 self.enemies.remove(enemy)
+
+    def move(self, atlas):
+        for enemy in self.enemies:
+            enemy.move(atlas, direction=enemy.directions.get_random_direction(enemy.x, enemy.y, atlas))
 
     def __iter__(self):
         return iter(self.enemies)

@@ -1,19 +1,14 @@
 from character import Character
-from controller import directions
 import random
 import pyglet
+from direction import get_standard_directions
 
 class Hero(Character):
     def __init__(self, hero_type=None, name=None):
         super(Hero, self).__init__(hero_type, name, x=3, y=3)
         self.experience = 0
         self.level = 1
-
-    def move(self, direction=None):
-        if direction:
-            x_delt, y_delt = directions[direction]
-            self.x = self.x + x_delt
-            self.y = self.y + y_delt
+        self.directions = get_standard_directions(has_controls=True)
 
     def gain_experience(experience_gained):
         self.experience += experience_gained

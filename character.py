@@ -1,4 +1,5 @@
 from sprites import get_image
+from direction import get_standard_directions
 
 import pyglet
 
@@ -10,3 +11,15 @@ class Character(object):
         self.x = kwargs.get('x')
         self.y = kwargs.get('y')
         self.image = get_image(self.char_type)
+        self.directions = get_standard_directions()
+
+    def move(self, atlas, symbol=None, direction=None):
+        if not direction and symbol:
+            direction = next((direction for direction in self.directions
+                              if direction.key == symbol), None)
+        if direction and direction in self.directions.get_valid_directions(self.x, self.y, atlas):
+            del_x, del_y = direction.delta
+            atlas.remove_from_tile(self, self.x, self.y)
+            self.x += del_x
+            self.y += del_y
+            atlas.place_on_tile(self, self.x, self.y)

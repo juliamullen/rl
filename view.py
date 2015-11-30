@@ -44,11 +44,12 @@ class Animator(object):
         self.views = []
         self.view = View(window, 10., 15, 30, 70, 68)
         self.messages = View(window, 2., 15, 0, 70, 30)
-        self.message = "GAMETHON 3000"
+        self.message = ""
         self.write_message()
 
     def write_message(self):
-        self.messages.draw_text(self.message, 0, 0, 2, 2)
+        if self.message:
+            self.messages.draw_text(self.message, 0, 0, 2, 2)
 
     def draw_tiles(self, atlas):
         for col_num, column in enumerate(atlas.atlas):
