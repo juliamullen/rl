@@ -24,7 +24,7 @@ if __name__ == "__main__":
             window.close()
         hero.move(atlas, symbol=symbol)
         enemies.remove_dead_enemies(atlas)
-        enemies.move(atlas)
+        enemies.move(atlas, hero)
 
     @window.event
     def on_draw():

@@ -1,4 +1,5 @@
 from character import Character
+from direction import a_star
 
 import random
 random.seed()
@@ -38,9 +39,12 @@ class Enemies(object):
                 atlas.remove_from_tile(enemy, enemy.x, enemy.y)
                 self.enemies.remove(enemy)
 
-    def move(self, atlas):
+    def move(self, atlas, hero):
         for enemy in self.enemies:
-            enemy.move(atlas, direction=enemy.directions.get_random_direction(enemy.x, enemy.y, atlas))
+            direction = a_star(enemy.directions, enemy.x, enemy.y, hero.x, hero.y, atlas)
+            if not direction:
+                direction = enemy.directions.get_random_direction(enemy.x, enemy.y, atlas)
+            enemy.move(atlas, direction=direction)
 
     def __iter__(self):
         return iter(self.enemies)
