@@ -1,25 +1,30 @@
 from character import Character
-from direction import a_star
+from pathfinding import Path
 
 import random
 random.seed()
 
 ENEMY_NAMES = [('Gunther', 'he'),
-        ('Erica', 'she'),
+        ('Woman From Baltimore, MD', 'she'),
         ('Ozymandias', 'he'),
         ('Grammy Award Winning Artist Beck', 'he'),
-        ('Rebecca', 'she')]
+        ('Literally Queen Elizabeth', 'she')]
 
 class Mob(Character):
     def __init__(self, mob_type, name, **kwargs):
         super(Mob, self).__init__(mob_type, name, **kwargs)
         self.health = 7
         self.status = "alive"
+        self.path = Path()
 
     def take_damage(self, damage):
         self.health -= damage
         if self.health <= 0:
             self.status = "dead"
+
+    def move_step(self, atlas):
+        direction = self.path.get_next_step()
+        self.move(atlas, direction=direction)
 
 class Enemies(object):
     def __init__(self, x, y):
@@ -41,7 +46,6 @@ class Enemies(object):
 
     def move(self, atlas, hero):
         for enemy in self.enemies:
-            direction = a_star(enemy.directions, enemy.x, enemy.y, hero.x, hero.y, atlas)
             if not direction:
                 direction = enemy.directions.get_random_direction(enemy.x, enemy.y, atlas)
             enemy.move(atlas, direction=direction)

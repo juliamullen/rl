@@ -24,7 +24,15 @@ if __name__ == "__main__":
             window.close()
         hero.move(atlas, symbol=symbol)
         enemies.remove_dead_enemies(atlas)
-        enemies.move(atlas, hero)
+
+        for enemy in enemies:
+            enemy.path.update(x1=enemy.x,
+                    y1=enemy.y,
+                    x2=hero.x,
+                    y2=hero.y,
+                    atlas=atlas,
+                    directions=enemy.directions)
+            enemy.move_step(atlas)
 
     @window.event
     def on_draw():
