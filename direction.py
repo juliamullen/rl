@@ -75,8 +75,8 @@ def a_star(valid_directions, x1, y1, x2, y2, atlas):
     def reconstruct(came_from, current):
         total_path = [current]
         while came_from.get(current, False):
-            current = came_from[current]
-            total_path.append(current)
+            current = came_from[current][0]
+            total_path.append(current[1])
         print total_path
         return total_path
 
@@ -93,12 +93,10 @@ def a_star(valid_directions, x1, y1, x2, y2, atlas):
     }
 
     while to_be_evaluated:
-        #print "{}{}{}{}{}".format(x1,y1,x2,y2, to_be_evaluated)
         by_g_score = sorted(
                 [(coord, g_score.get(coord, False)) for coord in to_be_evaluated],
                 key=lambda x: operator.itemgetter(1))
         current = by_g_score[0][0]
-        #print "{} {} {}".format(current, x2, y2)
         if current[0] == x2 and current[1] == y2:
             return reconstruct(came_from, current)
 
@@ -114,6 +112,6 @@ def a_star(valid_directions, x1, y1, x2, y2, atlas):
             if neighbor in to_be_evaluated and tentative_g >= g_score[neighbor]:
                 continue
             to_be_evaluated.add(neighbor)
-            came_from[neighbor] = direction
+            came_from[neighbor] = (current, direction)
             g_score[neighbor] = tentative_g
             f_score[neighbor] = g_score[neighbor] + heuristic(neighbor[0], neighbor[1], x2, y2)
