@@ -24,20 +24,21 @@ class Path(object):
             self.state = 'ok'
 
     def a_star(self):
+        print "{} {} {} {}".format(self.x1, self.y1, self.x2, self.y2)
         if self.state != 'ok':
             return
+
         already_evaluated = set()
         to_be_evaluated = set([(self.x1, self.y1)])
         came_from = {}
 
         def reconstruct(came_from, current):
-            import pdb; pdb.set_trace()
             total_path = [current]
             while came_from.get(current, False):
-                current = came_from[current[0]]
+                current = came_from[current]
                 total_path.append(current)
-            print total_path
-            return total_path
+            print total_path[::-1]
+            return total_path[::-1]
 
         g_score = {
             (self.x1, self.y1): 0,
@@ -45,7 +46,8 @@ class Path(object):
 
         def heuristic(x1, y1, x2, y2):
             # Manhattan metric
-            return abs(x1 - x2) + abs(y1 - y2)
+            manhattan = abs(x1 - x2) + abs(y1 - y2)
+            return manhattan
 
         f_score = {
             (self.x1, self.y1): 0 + heuristic(self.x1, self.y1, self.x2, self.y2)
@@ -54,7 +56,7 @@ class Path(object):
         while to_be_evaluated:
             by_g_score = sorted(
                     [(coord, g_score.get(coord, False)) for coord in to_be_evaluated],
-                    key=lambda x: operator.itemgetter(1))
+                    key=lambda x: x[1])
             current = by_g_score[0][0]
             if current[0] == self.x2 and current[1] == self.y2:
                 return reconstruct(came_from, current)
@@ -75,10 +77,14 @@ class Path(object):
                 g_score[neighbor] = tentative_g
                 f_score[neighbor] = g_score[neighbor] + heuristic(neighbor[0], neighbor[1], self.x2, self.y2)
 
+
     def get_next_step(self):
-        import pdb; pdb.set_trace()
+        print "going in"
         path = self.a_star()
+        print "coming out"
+
         if path:
+            print "path is {}".format(path)
             next_step = path[0]
             direction = next_step[1]
             return direction

@@ -19,7 +19,10 @@ class Character(object):
                               if direction.key == symbol), None)
         if direction and direction in self.directions.get_valid_directions(self.x, self.y, atlas):
             del_x, del_y = direction.delta
-            atlas.remove_from_tile(self, self.x, self.y)
-            self.x += del_x
-            self.y += del_y
-            atlas.place_on_tile(self, self.x, self.y)
+            new_x = self.x + del_x
+            new_y = self.y + del_y
+            if atlas.pos(new_x, new_y).contents == []:
+                atlas.remove_from_tile(self, self.x, self.y)
+                self.x = new_x
+                self.y = new_y
+                atlas.place_on_tile(self, self.x, self.y)

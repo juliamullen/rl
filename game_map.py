@@ -43,7 +43,7 @@ class Atlas(object):
 
     def is_empty(self,x, y):
         tile = self.pos(x, y)
-        if tile and not tile.contents:
+        if tile:
             return True
 
         return False
