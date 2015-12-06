@@ -46,13 +46,39 @@ class Animator(object):
         self.messages = View(window, 2., 15, 0, 70, 30)
         self.message = ""
         self.write_message()
+        self.window_left = 0
+        self.window_right = 10
+        self.window_bottom = 0
+        self.window_top = 10
 
     def write_message(self):
         if self.message:
             self.messages.draw_text(self.message, 0, 0, 2, 2)
 
+    def reassign_center(self, center=None, width=10, height=10):
+        """
+        Returns a tuple containing the four indices to use when drawing the tiles
+        """
+        if center:
+            self.window_left   = center.x - int(width / 2)
+            self.window_right  = center.x + int(width / 2)
+            self.window_bottom = center.y - int(height / 2)
+            self.window_top    = center.y + int(height / 2)
+            print "reassign {} {} {} {}".format(self.window_left,
+                                                self.window_right,
+                                                self.window_bottom,
+                                                self.window_top)
+
+
     def draw_tiles(self, atlas):
-        for col_num, column in enumerate(atlas.atlas):
+        print "draw {} {} {} {}".format(self.window_left,
+                                        self.window_right,
+                                        self.window_bottom,
+                                        self.window_top)
+        for col_num, column in enumerate(atlas.return_tiles(self.window_left,
+                                                            self.window_right,
+                                                            self.window_bottom,
+                                                            self.window_top)):
             for row_num, tile in enumerate(column):
                 self.view.draw_item(tile.image, col_num, row_num,
                        width=1, height=1)

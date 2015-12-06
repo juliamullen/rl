@@ -21,7 +21,7 @@ class Character(object):
             del_x, del_y = direction.delta
             new_x = self.x + del_x
             new_y = self.y + del_y
-            if atlas.pos(new_x, new_y).contents == []:
+            if not atlas.has_contents(new_x, new_y):
                 atlas.remove_from_tile(self, self.x, self.y)
                 self.x = new_x
                 self.y = new_y

@@ -24,7 +24,6 @@ class Path(object):
             self.state = 'ok'
 
     def a_star(self):
-        print "{} {} {} {}".format(self.x1, self.y1, self.x2, self.y2)
         if self.state != 'ok':
             return
 
@@ -37,7 +36,6 @@ class Path(object):
             while came_from.get(current, False):
                 current = came_from[current]
                 total_path.append(current)
-            print total_path[::-1]
             return total_path[::-1]
 
         g_score = {
@@ -79,12 +77,9 @@ class Path(object):
 
 
     def get_next_step(self):
-        print "going in"
         path = self.a_star()
-        print "coming out"
 
         if path:
-            print "path is {}".format(path)
             next_step = path[0]
             direction = next_step[1]
             return direction

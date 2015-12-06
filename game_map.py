@@ -3,10 +3,11 @@ from sprites import get_image
 class Tile(object):
     tile_type = None
 
-    def __init__(self, tile_type=None, tile_num=0):
+    def __init__(self, tile_type='tile', tile_num=0):
         self.tile_type = tile_type
         self.tile_num  = tile_num
         self.image     = get_image('tile')
+        self.update_tile(self.tile_type)
         self.contents  = []
 
     def update_tile(self, tile_type):
@@ -14,16 +15,10 @@ class Tile(object):
         self.image = get_image(self.tile_type)
 
 class Atlas(object):
-    directions = {
-        'right': (1, 0),
-        'left':  (-1, 0),
-        'up':    (0, 1),
-        'down':  (0, -1),
-    }
     def __init__(self, rows=None, cols=None):
         self.rows = rows if rows else 10
         self.cols = cols if cols else 10
-        self.atlas = [[Tile(tile_type='regular') for row in range(self.rows)]
+        self.atlas = [[Tile(tile_type='tile') for row in range(self.rows)]
                 for col in range(self.cols)]
 
     def __iter__(self):
@@ -32,7 +27,7 @@ class Atlas(object):
     def is_location(self, x, y):
         if x in range(0, self.rows + 1) and y in range(0, self.cols + 1):
             try:
-                return self.atlas[x][y].tile_type == 'regular'
+                return self.atlas[x][y].tile_type == 'tile'
             except IndexError:
                 pass
         return False
@@ -41,8 +36,18 @@ class Atlas(object):
         if self.is_location(x, y):
             return self.atlas[x][y]
 
-    def is_empty(self,x, y):
-        tile = self.pos(x, y)
+    def has_contents(self, x, y, tile=None):
+        if not tile:
+            tile = self.pos(x, y)
+        if tile.contents:
+            return True
+
+        return False
+
+
+    def is_empty(self,x, y, tile=None):
+        if not tile:
+            tile = self.pos(x, y)
         if tile:
             return True
 
@@ -57,3 +62,17 @@ class Atlas(object):
         tile = self.pos(x,y)
         if tile:
             tile.contents.remove(thing)
+
+    def return_tiles(self, left, right, bottom, top):
+        print "return tiles: {} {} {} {}".format(left, right, bottom, top)
+        def return_tile(atlas, x, y):
+            tile = atlas.pos(x, y)
+            if tile:
+                return tile
+            else:
+                return Tile(tile_type='scroll')
+
+        tiles_to_return = [[return_tile(self, i, j)
+                for i in range(left, right)]
+                for j in range(bottom, top)]
+        return tiles_to_return

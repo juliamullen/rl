@@ -24,6 +24,8 @@ class Mob(Character):
 
     def move_step(self, atlas):
         direction = self.path.get_next_step()
+        if not direction:
+            direction = self.directions.get_random_direction(self.x, self.y, atlas=atlas)
         self.move(atlas, direction=direction)
 
 class Enemies(object):
