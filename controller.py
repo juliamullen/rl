@@ -1,5 +1,6 @@
 from pyglet.window import key
 
+"""
 def move_hero(symbol, modifiers, hero, atlas):
     x_delt, y_delt = directions[direction]
     tile = atlas.pos(hero.x + x_delt, hero.y + y_delt)
@@ -8,6 +9,7 @@ def move_hero(symbol, modifiers, hero, atlas):
         for enemy in enemy_list:
             hero.attack(enemy)
 
+"""
 def check_quit(symbol, modifiers):
     if symbol == key.Q:
         return True

@@ -64,7 +64,6 @@ class Atlas(object):
             tile.contents.remove(thing)
 
     def return_tiles(self, left, right, bottom, top):
-        print "return tiles: {} {} {} {}".format(left, right, bottom, top)
         def return_tile(atlas, x, y):
             tile = atlas.pos(x, y)
             if tile:

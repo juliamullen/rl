@@ -37,7 +37,6 @@ if __name__ == "__main__":
     @window.event
     def on_draw():
         window.clear()
-        print "reassign {} {}".format(hero.x, hero.y)
         animator.reassign_center(center=hero)
         animator.draw_tiles(atlas)
         animator.draw_hero(hero)

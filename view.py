@@ -50,6 +50,8 @@ class Animator(object):
         self.window_right = 10
         self.window_bottom = 0
         self.window_top = 10
+        self.center_x = 5
+        self.center_y = 5
 
     def write_message(self):
         if self.message:
@@ -64,17 +66,14 @@ class Animator(object):
             self.window_right  = center.x + int(width / 2)
             self.window_bottom = center.y - int(height / 2)
             self.window_top    = center.y + int(height / 2)
-            print "reassign {} {} {} {}".format(self.window_left,
-                                                self.window_right,
-                                                self.window_bottom,
-                                                self.window_top)
+            self.center_x = center.x
+            self.center_y = center.y
 
+    def translate_from_center(self, x, y):
+        new_x = x - self.window_left
+        new_y = y - self.window_bottom
 
     def draw_tiles(self, atlas):
-        print "draw {} {} {} {}".format(self.window_left,
-                                        self.window_right,
-                                        self.window_bottom,
-                                        self.window_top)
         for col_num, column in enumerate(atlas.return_tiles(self.window_left,
                                                             self.window_right,
                                                             self.window_bottom,
@@ -84,12 +83,14 @@ class Animator(object):
                        width=1, height=1)
 
     def draw_hero(self, hero):
-        self.view.draw_item(hero.image, hero.x, hero.y,
-                width=1, height=1, s=True)
+        hero_x, hero_y = self.translate_from_center(hero.x, hero.y)
+        self.view.draw_item(hero.image, hero_x, hero_y,
+                width=1, height=1)
 
     def draw_enemies(self, enemies):
         for enemy in enemies.enemies:
-            self.view.draw_item(enemy.image, enemy.x, enemy.y,
+            enemy_x, enemy_y = self.translate_from_center(enemy.x, enemy.y)
+            self.view.draw_item(enemy.image, enemy_x, enemy_y,
                     width=1, height=1)
 
     def reset_view(self, window):
