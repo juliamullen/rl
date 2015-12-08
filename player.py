@@ -9,6 +9,8 @@ class Hero(Character):
         self.experience = 0
         self.level = 1
         self.directions = get_standard_directions(has_controls=True)
+        self.health = 30
+        self.side = "good"
 
     def gain_experience(experience_gained):
         self.experience += experience_gained
@@ -17,6 +19,16 @@ class Hero(Character):
 
     def gain_level(advance_to_level):
         self.level = advance_to_level
+
+    def check_attack(self, atlas, symbol=None):
+        direction = self.get_direction(symbol)
+        if direction:
+            tile = direction.get_adjacent_tile(self.x, self.y, atlas)
+            if tile and tile.contents:
+                enemies = [i for i in tile.contents if i.side != self.side]
+                for enemy in enemies:
+                    self.attack(enemy)
+
 
     def attack(self, enemy=None):
         attack = 3 + random.randint(0, 4)

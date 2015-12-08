@@ -16,6 +16,7 @@ class Mob(Character):
         self.health = 7
         self.status = "alive"
         self.path = Path()
+        self.side = "evil"
 
     def take_damage(self, damage):
         self.health -= damage

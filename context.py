@@ -22,17 +22,21 @@ if __name__ == "__main__":
     def on_key_press(symbol, modifiers):
         if controller.check_quit(symbol, modifiers):
             window.close()
+        hero.check_attack(atlas, symbol)
         hero.move(atlas, symbol=symbol)
         enemies.remove_dead_enemies(atlas)
+        if len(enemies.enemies) == 0:
+            print "YOU WIN!"
 
         for enemy in enemies:
-            enemy.path.update(x1=enemy.x,
-                    y1=enemy.y,
-                    x2=hero.x,
-                    y2=hero.y,
-                    atlas=atlas,
-                    directions=enemy.directions)
-            enemy.move_step(atlas)
+            if not enemy.can_attack(atlas):
+                enemy.path.update(x1=enemy.x,
+                        y1=enemy.y,
+                        x2=hero.x,
+                        y2=hero.y,
+                        atlas=atlas,
+                        directions=enemy.directions)
+                enemy.move_step(atlas)
 
     @window.event
     def on_draw():

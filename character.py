@@ -12,11 +12,19 @@ class Character(object):
         self.y = kwargs.get('y')
         self.image = get_image(self.char_type)
         self.directions = get_standard_directions()
+        self.side = kwargs.get('side')
+        self.health = kwargs.get('health')
+        self.status = "alive"
+
+    def get_direction(self, symbol):
+        direction = next((direction for direction in self.directions
+                          if direction.key == symbol), None)
+
+        return direction
 
     def move(self, atlas, symbol=None, direction=None):
         if not direction and symbol:
-            direction = next((direction for direction in self.directions
-                              if direction.key == symbol), None)
+            direction = self.get_direction(symbol)
         if direction and direction in self.directions.get_valid_directions(self.x, self.y, atlas):
             del_x, del_y = direction.delta
             new_x = self.x + del_x
@@ -26,3 +34,23 @@ class Character(object):
                 self.x = new_x
                 self.y = new_y
                 atlas.place_on_tile(self, self.x, self.y)
+
+    def can_attack(self, atlas):
+        for thing in self.directions.adjacent_tile_contents(self.x, self.y, atlas):
+            if thing.side not in [self.side, 'item']:
+                self.attack(thing)
+                return True
+
+    def attack(self, thing):
+        damage = self.get_damage(thing)
+        print "{} attacks {} for {}".format(self.name, thing.name, damage)
+        thing.take_damage(damage)
+        print "{} has {} health".format(thing.name, thing.health)
+
+    def get_damage(self, thing):
+        return 1
+
+    def take_damage(self, damage):
+        self.health -= damage
+        if self.health <= 0:
+            self.status = "dead"
