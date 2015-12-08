@@ -72,6 +72,7 @@ class Animator(object):
     def translate_from_center(self, x, y):
         new_x = x - self.window_left
         new_y = y - self.window_bottom
+        return new_x, new_y
 
     def draw_tiles(self, atlas):
         for col_num, column in enumerate(atlas.return_tiles(self.window_left,

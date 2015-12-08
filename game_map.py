@@ -72,6 +72,6 @@ class Atlas(object):
                 return Tile(tile_type='scroll')
 
         tiles_to_return = [[return_tile(self, i, j)
-                for i in range(left, right)]
-                for j in range(bottom, top)]
+                for i in range(bottom, top)]
+                for j in range(left, right)]
         return tiles_to_return
