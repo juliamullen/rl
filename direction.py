@@ -62,7 +62,6 @@ class ValidDirections(object):
         for tile in self.get_adjacent_tiles(x, y, atlas):
             contents.extend(tile.contents)
 
-        print contents
         return contents
 
 

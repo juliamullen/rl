@@ -1,4 +1,5 @@
 from sprites import get_image
+import random
 
 class Tile(object):
     tile_type = None
@@ -16,10 +17,11 @@ class Tile(object):
 
 class Atlas(object):
     def __init__(self, rows=None, cols=None):
-        self.rows = rows if rows else 10
-        self.cols = cols if cols else 10
-        self.atlas = [[Tile(tile_type='tile') for row in range(self.rows)]
-                for col in range(self.cols)]
+        self.rows = rows if rows else 100
+        self.cols = cols if cols else 100
+        self.atlas = [[Tile(tile_type='tile' if random.randint(1, 8) != 1 else 'scroll')
+            for row in range(self.rows)]
+            for col in range(self.cols)]
 
     def __iter__(self):
         return iter([tile for row in self.atlas for tile in row])
@@ -43,7 +45,6 @@ class Atlas(object):
             return True
 
         return False
-
 
     def is_empty(self,x, y, tile=None):
         if not tile:
@@ -71,7 +72,7 @@ class Atlas(object):
             else:
                 return Tile(tile_type='scroll')
 
-        tiles_to_return = [[return_tile(self, i, j)
+        tiles_to_return = [[return_tile(self, j, i)
                 for i in range(bottom, top)]
                 for j in range(left, right)]
         return tiles_to_return

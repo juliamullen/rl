@@ -10,11 +10,11 @@ import pyglet
 
 if __name__ == "__main__":
     window     = pyglet.window.Window(resizable=True, width=700, height=700)
-    atlas      = Atlas(10, 10)
+    atlas      = Atlas()
     hero       = Hero(hero_type="ghost")
     animator   = Animator(window)
     event_loop = pyglet.app.EventLoop()
-    enemies    = Enemies(7, 7)
+    enemies    = Enemies(10, 10)
     atlas.atlas[hero.x][hero.y].contents.append(hero)
     for enemy in enemies:
         atlas.atlas[enemy.x][enemy.y].contents.append(enemy)

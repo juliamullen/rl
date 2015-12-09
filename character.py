@@ -43,9 +43,7 @@ class Character(object):
 
     def attack(self, thing):
         damage = self.get_damage(thing)
-        print "{} attacks {} for {}".format(self.name, thing.name, damage)
         thing.take_damage(damage)
-        print "{} has {} health".format(thing.name, thing.health)
 
     def get_damage(self, thing):
         return 1

@@ -1,5 +1,6 @@
 from character import Character
 from pathfinding import Path
+from sprites import IMAGE_FOR_TYPE
 
 import random
 random.seed()
@@ -17,6 +18,7 @@ class Mob(Character):
         self.status = "alive"
         self.path = Path()
         self.side = "evil"
+        self.face = mob_type
 
     def take_damage(self, damage):
         self.health -= damage
@@ -33,7 +35,7 @@ class Enemies(object):
     def __init__(self, x, y):
         enemies = []
         for i in range(5):
-            enemies.append(Mob('bunny',
+            enemies.append(Mob(IMAGE_FOR_TYPE.keys()[random.randint(0, 37)],
                 ENEMY_NAMES[i][0],
                 x=random.randint(0, x),
                 y=random.randint(0, y),
