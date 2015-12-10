@@ -14,7 +14,7 @@ if __name__ == "__main__":
     hero       = Hero(hero_type="ghost")
     animator   = Animator(window)
     event_loop = pyglet.app.EventLoop()
-    enemies    = Enemies(10, 10)
+    enemies    = Enemies(99, 99)
     atlas.atlas[hero.x][hero.y].contents.append(hero)
     for enemy in enemies:
         atlas.atlas[enemy.x][enemy.y].contents.append(enemy)

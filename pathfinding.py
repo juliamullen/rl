@@ -1,5 +1,10 @@
 import operator
 
+def manhattan_metric(x1, y1, x2, y2):
+    # Manhattan metric
+    distance = abs(x1 - x2) + abs(y1 - y2)
+    return distance
+
 
 class Path(object):
     def __init__(self, *args, **kwargs):
@@ -42,13 +47,8 @@ class Path(object):
             (self.x1, self.y1): 0,
         }
 
-        def heuristic(x1, y1, x2, y2):
-            # Manhattan metric
-            manhattan = abs(x1 - x2) + abs(y1 - y2)
-            return manhattan
-
         f_score = {
-            (self.x1, self.y1): 0 + heuristic(self.x1, self.y1, self.x2, self.y2)
+            (self.x1, self.y1): 0 + manhattan_metric(self.x1, self.y1, self.x2, self.y2)
         }
 
         while to_be_evaluated:
@@ -73,7 +73,7 @@ class Path(object):
                 to_be_evaluated.add(neighbor)
                 came_from[neighbor] = (current, direction)
                 g_score[neighbor] = tentative_g
-                f_score[neighbor] = g_score[neighbor] + heuristic(neighbor[0], neighbor[1], self.x2, self.y2)
+                f_score[neighbor] = g_score[neighbor] + manhattan_metric(neighbor[0], neighbor[1], self.x2, self.y2)
 
 
     def get_next_step(self):
@@ -83,3 +83,7 @@ class Path(object):
             next_step = path[0]
             direction = next_step[1]
             return direction
+
+    def is_far(self):
+        if manhattan_metric(self.x1, self.y1, self.x2, self.y2) > 20:
+            return True

@@ -19,6 +19,7 @@ class Mob(Character):
         self.path = Path()
         self.side = "evil"
         self.face = mob_type
+        self.state = None
 
     def take_damage(self, damage):
         self.health -= damage
@@ -26,20 +27,32 @@ class Mob(Character):
             self.status = "dead"
 
     def move_step(self, atlas):
-        direction = self.path.get_next_step()
-        if not direction:
+        self.update_status()
+        if self.state == 'idle':
             direction = self.directions.get_random_direction(self.x, self.y, atlas=atlas)
+        else:
+            direction = self.path.get_next_step()
+            if not direction:
+                direction = self.directions.get_random_direction(self.x, self.y, atlas=atlas)
+
         self.move(atlas, direction=direction)
+
+    def update_status(self):
+        if self.path.is_far():
+            self.state = "idle"
+        else:
+            self.state = "alert"
+
 
 class Enemies(object):
     def __init__(self, x, y):
         enemies = []
-        for i in range(5):
+        for i in range(50):
             enemies.append(Mob(IMAGE_FOR_TYPE.keys()[random.randint(0, 37)],
-                ENEMY_NAMES[i][0],
+                ENEMY_NAMES[i%5][0],
                 x=random.randint(0, x),
                 y=random.randint(0, y),
-                pronoun=ENEMY_NAMES[i][1]))
+                pronoun=ENEMY_NAMES[i%5][1]))
 
         self.enemies = enemies
 

@@ -15,11 +15,35 @@ class Tile(object):
         self.tile_type = tile_type
         self.image = get_image(self.tile_type)
 
+def tile_type_generator():
+    if not random.randint(0, 9):
+        return 'scroll'
+    z = random.randint(0, 16)
+    return [
+        'tile',
+        'tile',
+        'tile',
+        'tile',
+        'tile',
+        'tile',
+        'tile',
+        'tile',
+        'tile',
+        'tile',
+        'tile',
+        'tile',
+        'othertile',
+        'othertile',
+        'othertile',
+        'othertile',
+        'otherothertile',
+    ][z]
+
 class Atlas(object):
     def __init__(self, rows=None, cols=None):
         self.rows = rows if rows else 100
         self.cols = cols if cols else 100
-        self.atlas = [[Tile(tile_type='tile' if random.randint(1, 8) != 1 else 'scroll')
+        self.atlas = [[Tile(tile_type_generator())
             for row in range(self.rows)]
             for col in range(self.cols)]
 
@@ -29,7 +53,7 @@ class Atlas(object):
     def is_location(self, x, y):
         if x in range(0, self.rows + 1) and y in range(0, self.cols + 1):
             try:
-                return self.atlas[x][y].tile_type == 'tile'
+                return 'tile' in self.atlas[x][y].tile_type
             except IndexError:
                 pass
         return False

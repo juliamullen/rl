@@ -50,9 +50,12 @@ IMAGE_FOR_TYPE = {
     'luminati':         67,
     'compass':          68,
     'guy':              69,
-    'scroll':           70,
+    #'scroll':           70,
+    'scroll':           193,
     'sign':             71,
     'tile':             192,
+    'othertile':        2,
+    'otherothertile':   1,
 }
 
 def get_image(name):
