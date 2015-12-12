@@ -12,6 +12,9 @@ class Direction(object):
         del_x, del_y = self.delta
         return atlas.pos(x + del_x, y + del_y)
 
+    def __repr__(self):
+        return self.name
+
 
 class ControlDirection(Direction):
     def __init__(self, *args, **kwargs):
