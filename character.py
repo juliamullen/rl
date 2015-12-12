@@ -19,8 +19,6 @@ class Character(object):
     def get_direction(self, symbol):
         direction = next((direction for direction in self.directions
                           if direction.key == symbol), None)
-
-        print "{} {} {}".format(self.x, self.y, direction.delta)
         return direction
 
     def move(self, atlas, symbol=None, direction=None):
@@ -29,7 +27,7 @@ class Character(object):
             for direction in self.directions.get_valid_directions(self.x, self.y, atlas):
                 print direction
                 print atlas.pos(self.x + direction.delta[0],
-                        self.y + direction.delta[1]).contents
+                                self.y + direction.delta[1]).contents
         if direction and direction in self.directions.get_valid_directions(self.x, self.y, atlas):
             del_x, del_y = direction.delta
             new_x = self.x + del_x
@@ -45,6 +43,7 @@ class Character(object):
             if thing.side not in [self.side, 'item']:
                 self.attack(thing)
                 return True
+        return False
 
     def attack(self, thing):
         damage = self.get_damage(thing)

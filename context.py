@@ -22,8 +22,8 @@ if __name__ == "__main__":
     def on_key_press(symbol, modifiers):
         if controller.check_quit(symbol, modifiers):
             window.close()
-        hero.check_attack(atlas, symbol)
-        hero.move(atlas, symbol=symbol)
+        if not hero.check_attack(atlas, symbol):
+            hero.move(atlas, symbol=symbol)
         enemies.remove_dead_enemies(atlas)
         if len(enemies.enemies) == 0:
             print "YOU WIN!"

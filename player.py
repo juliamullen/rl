@@ -28,6 +28,10 @@ class Hero(Character):
                 enemies = [i for i in tile.contents if i.side != self.side]
                 for enemy in enemies:
                     self.attack(enemy)
+                if enemies:
+                    return True
+
+        return False
 
 
     def attack(self, enemy=None):

@@ -18,15 +18,15 @@ class Tile(object):
     def __repr__(self):
         return "[]" if self.tile_type == 'tile' else '{}'
 
-def generate_map(height, width, style):
+def generate_map(rows, cols, style):
     if style == 'random':
         return [[Tile(tile_type_generator())
-            for row in range(height)]
-            for col in range(width)]
+            for row in range(rows)]
+            for col in range(cols)]
     if style == 'rooms':
-        room_row = [Tile('tile' if ((y % 12) < 8) else "scroll") for y in range(height)]
-        corridor_row = [Tile('tile') for y in range(height)]
-        return [room_row if x % 10 else corridor_row for x in range(width)]
+        room_row = [Tile('tile' if ((row % 12) < 8) else "scroll") for row in range(rows)]
+        corridor_row = [Tile('tile') for row in range(rows)]
+        return [room_row if col % 10 else corridor_row for col in range(cols)]
 
 
 
@@ -108,7 +108,7 @@ class Atlas(object):
             else:
                 return Tile(tile_type='scroll')
 
-        tiles_to_return = [[return_tile(self, j, i)
-                for i in range(bottom, top)]
-                for j in range(left, right)]
+        tiles_to_return = [[return_tile(self, i, j)
+                for j in range(bottom, top)]
+                for i in range(left, right)]
         return tiles_to_return
