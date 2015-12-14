@@ -24,9 +24,22 @@ def generate_map(rows, cols, style):
             for row in range(rows)]
             for col in range(cols)]
     if style == 'rooms':
-        room_row = [Tile('tile' if ((row % 12) < 8) else "scroll") for row in range(rows)]
-        corridor_row = [Tile('tile') for row in range(rows)]
-        return [room_row if col % 10 else corridor_row for col in range(cols)]
+        def generate_room_row(rows):
+            room_row = []
+            for row in range(rows):
+                if (row % 12) < 8:
+                    room_row.append(Tile('tile'))
+                else:
+                    room_row.append(Tile('scroll'))
+            return room_row
+
+        def generate_corridor_row(rows):
+            corridor_row = []
+            for row in range(rows):
+                corridor_row.append(Tile('tile'))
+            return corridor_row
+
+        return [generate_room_row(rows) if col % 10 else generate_corridor_row(rows) for col in range(cols)]
 
 
 
@@ -82,15 +95,17 @@ class Atlas(object):
 
         return False
 
-    def is_empty(self,x, y, tile=None):
+    def is_empty(self,x, y, tile=None, z=False):
         if not tile:
             tile = self.pos(x, y)
-        if tile:
+        if tile and not self.has_contents(0, 0, tile=tile):
             return True
 
         return False
 
     def place_on_tile(self, thing, x, y):
+        if thing.side == "good":
+            print "{} {} {} ".format(thing.name, thing.x, thing.y)
         tile = self.pos(x, y)
         if tile:
             tile.contents.append(thing)

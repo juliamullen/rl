@@ -24,7 +24,8 @@ class Character(object):
     def move(self, atlas, symbol=None, direction=None):
         if not direction and symbol:
             direction = self.get_direction(symbol)
-            for direction in self.directions.get_valid_directions(self.x, self.y, atlas):
+            r = self.side == "good"
+            for direction in self.directions.get_valid_directions(self.x, self.y, atlas, z=r):
                 print direction
                 print atlas.pos(self.x + direction.delta[0],
                                 self.y + direction.delta[1]).contents

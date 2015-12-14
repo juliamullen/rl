@@ -47,7 +47,7 @@ class ValidDirections(object):
 
         return tiles
 
-    def get_valid_directions(self, x, y, atlas):
+    def get_valid_directions(self, x, y, atlas, z=False):
         """
         Returns the possible valid movement directions from (x, y)
         """
@@ -55,7 +55,11 @@ class ValidDirections(object):
 
         for direction in self.directions:
             del_x, del_y = direction.delta
-            if atlas.is_empty(x + del_x, y + del_y):
+            if z:
+                print "{} {} {}".format(x, y, direction.delta)
+            if atlas.is_empty(x + del_x, y + del_y, z=z):
+                if z:
+                    print "in get_valid {} {}".format(direction.name, atlas.pos(x + del_x, y + del_y).contents)
                 valid_list.append(direction)
 
         return valid_list

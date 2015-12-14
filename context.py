@@ -15,11 +15,12 @@ if __name__ == "__main__":
     animator   = Animator(window)
     event_loop = pyglet.app.EventLoop()
     enemies    = Enemies(99, 99)
-    atlas.atlas[hero.x][hero.y].contents.append(hero)
+    atlas.place_on_tile(hero, hero.x, hero.y)
     for enemy in enemies:
-        atlas.atlas[enemy.x][enemy.y].contents.append(enemy)
+        atlas.place_on_tile(enemy, enemy.x, enemy.y)
     @window.event
     def on_key_press(symbol, modifiers):
+        import pudb;pudb.set_trace()
         if controller.check_quit(symbol, modifiers):
             window.close()
         if not hero.check_attack(atlas, symbol):
