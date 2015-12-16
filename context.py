@@ -20,7 +20,6 @@ if __name__ == "__main__":
         atlas.place_on_tile(enemy, enemy.x, enemy.y)
     @window.event
     def on_key_press(symbol, modifiers):
-        import pudb;pudb.set_trace()
         if controller.check_quit(symbol, modifiers):
             window.close()
         if not hero.check_attack(atlas, symbol):

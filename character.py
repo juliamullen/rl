@@ -25,10 +25,6 @@ class Character(object):
         if not direction and symbol:
             direction = self.get_direction(symbol)
             r = self.side == "good"
-            for direction in self.directions.get_valid_directions(self.x, self.y, atlas, z=r):
-                print direction
-                print atlas.pos(self.x + direction.delta[0],
-                                self.y + direction.delta[1]).contents
         if direction and direction in self.directions.get_valid_directions(self.x, self.y, atlas):
             del_x, del_y = direction.delta
             new_x = self.x + del_x

@@ -95,7 +95,7 @@ class Atlas(object):
 
         return False
 
-    def is_empty(self,x, y, tile=None, z=False):
+    def is_empty(self,x, y, tile=None):
         if not tile:
             tile = self.pos(x, y)
         if tile and not self.has_contents(0, 0, tile=tile):
@@ -104,8 +104,6 @@ class Atlas(object):
         return False
 
     def place_on_tile(self, thing, x, y):
-        if thing.side == "good":
-            print "{} {} {} ".format(thing.name, thing.x, thing.y)
         tile = self.pos(x, y)
         if tile:
             tile.contents.append(thing)
