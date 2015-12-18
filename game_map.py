@@ -33,11 +33,30 @@ def generate_map(rows, cols, style):
                     room_row.append(Tile('scroll'))
             return room_row
 
+        def generate_interior_row(rows):
+            interior_row = []
+            for row in range(rows):
+                if (row % 12) in (1, 3, 10, 11):
+                    interior_row.append('tile')
+                    interior_row.append('scroll')
+                else:
+                    interior_row.append('tile')
+            return interior_row
+
         def generate_corridor_row(rows):
             corridor_row = []
             for row in range(rows):
                 corridor_row.append(Tile('tile'))
             return corridor_row
+
+        floor = []
+        for row in range(cols):
+            if 0 > row % 10 > 5:
+                floor.append(generate_room_row(cols))
+            elif 5 >= row % 10 > 7:
+                floor.append(generate_interior_row(cols))
+            elif 7 >= row % 10 > 10:
+                floor.append(generate_corridor_row(cols))
 
         return [generate_room_row(rows) if col % 10 else generate_corridor_row(rows) for col in range(cols)]
 

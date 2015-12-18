@@ -85,5 +85,5 @@ class Path(object):
             return direction
 
     def is_far(self):
-        if manhattan_metric(self.x1, self.y1, self.x2, self.y2) > 20:
+        if manhattan_metric(self.x1, self.y1, self.x2, self.y2) > 7:
             return True

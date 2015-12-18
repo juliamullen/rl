@@ -45,14 +45,19 @@ class Mob(Character):
 
 
 class Enemies(object):
-    def __init__(self, x, y):
+    def __init__(self, x, y, atlas):
         enemies = []
         for i in range(50):
-            enemies.append(Mob(IMAGE_FOR_TYPE.keys()[random.randint(0, 37)],
-                ENEMY_NAMES[i%5][0],
-                x=random.randint(0, x),
-                y=random.randint(0, y),
-                pronoun=ENEMY_NAMES[i%5][1]))
+            new_enemy = Mob(IMAGE_FOR_TYPE.keys()[random.randint(0, 37)],
+                    ENEMY_NAMES[i%5][0],
+                    x=random.randint(0, x),
+                    y=random.randint(0, y),
+                    pronoun=ENEMY_NAMES[i%5][1])
+            while not atlas.is_empty(new_enemy.x, new_enemy.y):
+                new_enemy.x = random.randint(0, x)
+                new_enemy.y = random.randint(0, y)
+
+            atlas.place_on_tile(new_enemy, new_enemy.x, new_enemy.y)
 
         self.enemies = enemies
 
